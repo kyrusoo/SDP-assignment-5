@@ -22,6 +22,7 @@ public final class DemoData {
 
     public static List<RouteStrategy> strategies() {
         return List.of(new FastestRouteStrategy(), new CheapestRouteStrategy(),
-                new EcoFriendlyRouteStrategy(), new BalancedRouteStrategy(0.40, 0.30, 0.10, 0.20));
+                new EcoFriendlyRouteStrategy(), new BalancedRouteStrategy(0.40, 0.30, 0.10, 0.20),
+                new DistanceFirstStrategy());
     }
 }

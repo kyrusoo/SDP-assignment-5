@@ -239,9 +239,19 @@ class RouteEngineTest {
     }
 
     @Test
+    void fifthStrategySelectsShortestRouteThroughTheExistingPlanner() {
+        RoutePlanner planner = new RoutePlanner(new FastestRouteStrategy());
+        planner.setStrategy(new DistanceFirstStrategy());
+        RouteDecision result = planner.plan(DemoData.routes(), STANDARD);
+        assertEquals("R5-Short", result.route().id());
+        assertEquals(10, result.score());
+        assertTrue(result.rejectedRoutes().contains("R7-Closed: unavailable"));
+    }
+
+    @Test
     void comparisonRunsAllStrategiesForTheSameRequest() {
         List<RouteDecision> results = new StrategyComparison(DemoData.strategies()).compare(DemoData.routes(), STANDARD);
-        assertEquals(List.of("R2-Highway", "R3-Economy", "R4-Electric", "R6-Balanced"),
+        assertEquals(List.of("R2-Highway", "R3-Economy", "R4-Electric", "R6-Balanced", "R5-Short"),
                 results.stream().map(result -> result.route().id()).toList());
     }
 }
